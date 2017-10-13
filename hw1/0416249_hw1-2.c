@@ -9,15 +9,15 @@
 int main ()
 {
 	int d;
-	unsigned long chksum=0;
+	unsigned int chksum=0;
 	struct timeval start, end;
 	int shmid_a;
 	int shmid_b;
 	int shmid_c;
 	int shmid_sub;
-	unsigned long *a;
-	unsigned long *b;
-	unsigned long *c;
+	unsigned int *a;
+	unsigned int *b;
+	unsigned int *c;
 	int* sub;
 	int count;
 	int status;
@@ -28,13 +28,13 @@ int main ()
 	scanf("%d",&d);
 
 //********************************* init shared memory *********************************
-	shmid_a = shmget(IPC_PRIVATE,d*d*sizeof(unsigned long),IPC_CREAT|0666);
-	shmid_b = shmget(IPC_PRIVATE,d*d*sizeof(unsigned long),IPC_CREAT|0666);
-	shmid_c = shmget(IPC_PRIVATE,d*d*sizeof(unsigned long),IPC_CREAT|0666);
+	shmid_a = shmget(IPC_PRIVATE,d*d*sizeof(unsigned int),IPC_CREAT|0666);
+	shmid_b = shmget(IPC_PRIVATE,d*d*sizeof(unsigned int),IPC_CREAT|0666);
+	shmid_c = shmget(IPC_PRIVATE,d*d*sizeof(unsigned int),IPC_CREAT|0666);
 	shmid_sub = shmget(IPC_PRIVATE,5*sizeof(int),IPC_CREAT|0666);
-	a = (unsigned long*)shmat(shmid_a,NULL,0);
-	b = (unsigned long*)shmat(shmid_b,NULL,0);
-	c = (unsigned long*)shmat(shmid_c,NULL,0);
+	a = (unsigned int*)shmat(shmid_a,NULL,0);
+	b = (unsigned int*)shmat(shmid_b,NULL,0);
+	c = (unsigned int*)shmat(shmid_c,NULL,0);
 	sub = (int*)shmat(shmid_sub,NULL,0);
 
 	for (int i=0;i<d*d;++i)
@@ -61,7 +61,7 @@ int main ()
 		for (int x=0;x<d;++x)
 			chksum += c[(i*d)+x];
 	}	
-	printf("1-process, checksum = %lu\n", chksum);
+	printf("1-process, checksum = %d\n", chksum);
 
 	gettimeofday(&end,0);
 	double sec = end.tv_sec - start.tv_sec;
@@ -72,6 +72,7 @@ int main ()
 	int tmp = d/4;
 	for (int i=1;i<=4;++i)
 		sub[i] += tmp*i;
+	sub[4] = d;
 
 	gettimeofday(&start, 0);
 	count = 0;
@@ -89,9 +90,9 @@ int main ()
 			++count;
 	}	
 
-	a = (unsigned long*)shmat(shmid_a,NULL,0);
-	b = (unsigned long*)shmat(shmid_b,NULL,0);
-	c = (unsigned long*)shmat(shmid_c,NULL,0);
+	a = (unsigned int*)shmat(shmid_a,NULL,0);
+	b = (unsigned int*)shmat(shmid_b,NULL,0);
+	c = (unsigned int*)shmat(shmid_c,NULL,0);
 	sub = (int*)shmat(shmid_sub,NULL,0);
 
 	if (pid)
@@ -124,13 +125,13 @@ int main ()
 		_exit(0);
 
 	chksum = 0;
-	c = (unsigned long*)shmat(shmid_c,NULL,0);
+	c = (unsigned int*)shmat(shmid_c,NULL,0);
 	for (int i=0;i<d;++i)
 	{
 		for (int x=0;x<d;++x)
 			chksum += c[(i*d)+x];
 	}
-	printf("4-process,checksum = %lu\n",chksum);
+	printf("4-process,checksum = %d\n",chksum);
 	shmdt(c);
 
 	gettimeofday(&end, 0);
