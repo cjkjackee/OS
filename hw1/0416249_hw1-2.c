@@ -138,6 +138,7 @@ int main ()
 	usec = end.tv_usec - start.tv_usec;
 	printf("elapsed %f s\n",sec+(usec/1000000));
 
+//****************************** end && clear the shared memory ******************************
 	shmctl(shmid_a,IPC_RMID,0);
 	shmctl(shmid_b,IPC_RMID,0);
 	shmctl(shmid_c,IPC_RMID,0);
