@@ -37,7 +37,7 @@ int main ()
 	c = (unsigned int*)shmat(shmid_c,NULL,0);
 	sub = (int*)shmat(shmid_sub,NULL,0);
 
-	for (int i=0;i<d*d;++i)
+	for (unsigned int i=0;i<d*d;++i)
 	{
 		a[i] = i;
 		b[i] = i;
@@ -61,7 +61,7 @@ int main ()
 		for (int x=0;x<d;++x)
 			chksum += c[(i*d)+x];
 	}	
-	printf("1-process, checksum = %d\n", chksum);
+	printf("1-process, checksum = %u\n", chksum);
 
 	gettimeofday(&end,0);
 	double sec = end.tv_sec - start.tv_sec;
@@ -131,7 +131,7 @@ int main ()
 		for (int x=0;x<d;++x)
 			chksum += c[(i*d)+x];
 	}
-	printf("4-process,checksum = %d\n",chksum);
+	printf("4-process,checksum = %u\n",chksum);
 	shmdt(c);
 
 	gettimeofday(&end, 0);
