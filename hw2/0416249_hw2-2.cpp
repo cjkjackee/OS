@@ -42,24 +42,14 @@ int main ()
     {
         while(!q.empty() && t>=q.front()->arrival)
         {
-            if (waiting.empty() || waiting.front()->burst>q.front()->burst)
+            if (waiting.empty() || waiting.front()->burst<q.front()->burst)
             {
-                waiting.push_front(q.front());
+                waiting.push_back(q.front());
                 q.pop_front();
             }
             else
             {
-                deque<process*>::iterator it;
-                for (deque<process*>::iterator it=waiting.begin();it!=waiting.end();++it)
-                {
-                    if ((*it)->burst>q.front()->burst)
-                    {
-                        waiting.insert(it,q.front());
-                        break;
-                    }
-                }
-                if(waiting.back()->burst<q.front()->burst)
-                    waiting.push_back(q.front());
+                waiting.push_front(q.front());
                 q.pop_front();
             }
         }
