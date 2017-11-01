@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <deque>
 using namespace std;
@@ -17,6 +18,7 @@ public:
 
 int main ()
 {
+    fstream fin;
     int n;
     int t;
     int quantum1;
@@ -27,21 +29,22 @@ int main ()
     vector<process> p;
     deque<process*> coming,Hpriority, Mpriority, Lpriority;
 
-    cin >> n;
+    fin.open("Q4.txt");
+    fin >> n;
     for (int i=0;i<n;++i)
     {
-        cin >> proc.arrival;
+        fin >> proc.arrival;
         p.push_back(proc);
     }
     for (int i=0;i<n;++i)
     {
-        cin >> p[i].burst;
+        fin >> p[i].burst;
         p[i].now = p[i].burst;
         coming.push_back(&p[i]);
     }
     
-    cin >> quantum1;
-    cin >> quantum2;
+    fin >> quantum1;
+    fin >> quantum2;
    
     t = 0;
     while(!coming.empty() || !Hpriority.empty() || !Mpriority.empty() || !Lpriority.empty() )

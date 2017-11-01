@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <deque>
 using namespace std;
@@ -17,6 +18,7 @@ public:
 
 int main ()
 {
+    fstream fin;
     int n;
     int t;
     double ave_wait=0, ave_turn=0;
@@ -24,15 +26,16 @@ int main ()
     vector<process> proc;
     deque<process*> q, waiting;
 
-    cin >> n;
+    fin.open("Q3.txt");
+    fin >> n;
     for (int i=0;i<n;++i)
     {
-        cin >> p.arrival;
+        fin >> p.arrival;
         proc.push_back(p);
     }
     for (int i=0;i<n;++i)
     {
-        cin >> proc[i].burst;
+        fin >> proc[i].burst;
         proc[i].now = proc[i].burst;
         q.push_back(&proc[i]);
     }

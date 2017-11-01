@@ -1,8 +1,10 @@
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 int main ()
 {
+    fstream fin;
     int n;
     int t;
     int tim =0;
@@ -10,9 +12,10 @@ int main ()
     double turn=0;
     int i=0;
 
-    cin >> n;
+    fin.open("Q1.txt");
+    fin >> n;
     cout << "Process   Waiting Time   Turnaround Time" << endl;
-    while(cin>>t)
+    while(fin>>t)
     {
         cout<< "P[" << ++i << "]";
         cout.width(6);
